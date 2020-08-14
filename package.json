@@ -6,7 +6,10 @@
   "module": "dist/index.es.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "publish-patch": "npm version patch && npm run build && npm publish",
+    "publish-minor": "npm version minor && npm run build && npm publish",
+    "publish-major": "npm version major && npm run build && npm publish"
   },
   "keywords": [
     "taro",
