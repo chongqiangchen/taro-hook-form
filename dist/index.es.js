@@ -111,7 +111,7 @@ var Config = /*#__PURE__*/Object.freeze({
   AtInput: AtInput
 });
 
-const SUCCESS_FLAG = "success";
+const SUCCESS_FLAG = 'success';
 // const ERROR_FLAG = 'error'
 
 /**
@@ -121,7 +121,7 @@ const SUCCESS_FLAG = "success";
  * return error: 表示校验错误， success: 表示校验成功
  */
 const verifyDefaultActions = {
-  required: (value, ruleObj = { rule: true, error: "" }) => {
+  required: (value, ruleObj = { rule: true, error: '' }) => {
     if (!ruleObj.rule) {
       return SUCCESS_FLAG;
     }
@@ -138,7 +138,7 @@ const verifyDefaultActions = {
     return SUCCESS_FLAG;
   },
   // maxLength: value => {},
-  pattern: (value, ruleObj = { rule: null, error: "" }) => {
+  pattern: (value, ruleObj = { rule: null, error: '' }) => {
     if (!ruleObj.rule) {
       return SUCCESS_FLAG;
     }
@@ -148,7 +148,7 @@ const verifyDefaultActions = {
     }
 
     return SUCCESS_FLAG;
-  }
+  },
   // min: value => {},
   // max: value => {}
 };
@@ -160,7 +160,7 @@ const verifyDefaultActions = {
  */
 function attachListerner(ref, handleChange) {
   const { name } = ref.props;
-  event.on(name, "INPUT_FIELD", handleChange);
+  event.on(name, 'INPUT_FIELD', handleChange);
 
   Config[getComponentType(ref)].attachChange(event, name, ref);
 }
@@ -210,7 +210,7 @@ function useForm({ verifyLazy }) {
 
   function setValue(nameAndValue) {
     // TODO: 是否对无用数据(other), 进行过滤{[name]: value, other: xxx}
-    setFormValues(v => ({ ...v, ...nameAndValue }));
+    setFormValues((v) => ({ ...v, ...nameAndValue }));
   }
 
   function getValue(name) {
@@ -225,17 +225,15 @@ function useForm({ verifyLazy }) {
       const validationMapNames = Object.keys(validationMap.current);
 
       for (const name of validationMapNames) {
-        const result = hanldeVerifyActions(
-          name,
-          formValues[name],
-          validationMap.current[name]
-        );
+        const result = hanldeVerifyActions(name, formValues[name], validationMap.current[name]);
 
         if (!result) return;
       }
 
       // NOTE: 此处第一次拿不到errors
-      func(formValues);
+      if (func) {
+        func(formValues);
+      }
     };
   }
 
@@ -248,7 +246,7 @@ function useForm({ verifyLazy }) {
       if (!isObject(vOpts)) {
         vOpts = {
           rule: vOpts,
-          error: ""
+          error: '',
         };
       }
 
@@ -260,7 +258,7 @@ function useForm({ verifyLazy }) {
         return false;
       }
 
-      setErrors(e => {
+      setErrors((e) => {
         delete e[name];
         return e;
       });
@@ -287,7 +285,7 @@ function useForm({ verifyLazy }) {
   }, [formValues]);
 
   useUnmount(() => {
-    namesRef.current.forEach(name => {
+    namesRef.current.forEach((name) => {
       event.off(name);
     });
 
@@ -301,7 +299,7 @@ function useForm({ verifyLazy }) {
     handleSubmit,
     formValues,
     isCompleted,
-    errors
+    errors,
   };
 }
 

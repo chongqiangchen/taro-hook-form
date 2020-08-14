@@ -3,48 +3,8 @@ import event from '../utils/event';
 import { isNil, isObject, getComponentType } from '../utils/common';
 import useUnmount from './useUnmount';
 import * as Config from '../config';
-
-const SUCCESS_FLAG = 'success';
-// const ERROR_FLAG = 'error'
-
-/**
- * 校验动作处理
- * @param ruleObj object: { rule, error }
- *
- * return error: 表示校验错误， success: 表示校验成功
- */
-const verifyDefaultActions = {
-  required: (value, ruleObj = { rule: true, error: '' }) => {
-    if (!ruleObj.rule) {
-      return SUCCESS_FLAG;
-    }
-
-    if (isNil(value)) {
-      return ruleObj.error;
-    }
-
-    // 针对 仅仅输入空格情况
-    if (!value.match(/[^\s]/)) {
-      return ruleObj.error;
-    }
-
-    return SUCCESS_FLAG;
-  },
-  // maxLength: value => {},
-  pattern: (value, ruleObj = { rule: null, error: '' }) => {
-    if (!ruleObj.rule) {
-      return SUCCESS_FLAG;
-    }
-
-    if (!ruleObj.rule.test(value)) {
-      return ruleObj.error;
-    }
-
-    return SUCCESS_FLAG;
-  },
-  // min: value => {},
-  // max: value => {}
-};
+import { SUCCESS_FLAG } from '../utils/constants';
+import { VerifyActions } from '../verify-actions';
 
 /**
  * 监听输入框改变事件
@@ -77,12 +37,11 @@ function useForm({ verifyLazy }) {
   });
 
   /**
-   * 注册， 通过Ref绑定相关AtInput, AtTextarea， 暂时只针对Taro-ui
-   * 因为原生小程序的Input和Textarea暂时不知道从哪获知props
+   * 注册
    * @param {*} ref
-   * @param {*} ValidationOptions required, maxLength, pattern, min, max
+   * @param {*} validationOptions required, maxLength, pattern, min, max
    */
-  function register(ref, ValidationOptions) {
+  function register(ref, validationOptions) {
     if (!ref) return;
 
     const { name, value } = ref.props;
@@ -93,8 +52,8 @@ function useForm({ verifyLazy }) {
     namesRef.current.push(name);
 
     setValue({ [name]: value });
-    if (ValidationOptions) {
-      validationMap.current[name] = ValidationOptions;
+    if (validationOptions) {
+      validationMap.current[name] = validationOptions;
     }
 
     attachListerner(ref, handleChangeRef.current);
@@ -143,7 +102,7 @@ function useForm({ verifyLazy }) {
         };
       }
 
-      const currentResult = verifyDefaultActions[key](value, vOpts);
+      const currentResult = VerifyActions[key](value, vOpts);
 
       if (currentResult !== SUCCESS_FLAG) {
         // TODO: 是否需要变为多个错误提示，（当前只是显示一个error的存储）

@@ -61,7 +61,7 @@ export function TestInput() {
 
 参数：
 
-verifyLazy：boolean 是否不要在输入时就校验输入是否错误
+verifyLazy：boolean - 是否关闭在输入时就校验输入信息
 
 返回：
 
