@@ -1,7 +1,7 @@
 {
   "name": "taro-hook-form",
-  "version": "0.1.0",
-  "description": "",
+  "version": "0.2.0",
+  "description": "针对taro的轻量级表单验证库",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "scripts": {
@@ -10,10 +10,14 @@
   },
   "keywords": [
     "taro",
-    "taro/useForm",
-    "taro-use-form"
+    "forms",
+    "taro-use-form",
+    "taro-hook-form",
+    "form-validation",
+    "react-hook"
   ],
-  "author": "",
+  "repository": "https://github.com/chongqiangchen/taro-hook-form.git",
+  "author": "<chongqiangchen@gmail.com>",
   "license": "ISC",
   "dependencies": {},
   "devDependencies": {
