@@ -1,10 +1,10 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
-import event from '../utils/event';
-import { isNil, isObject, getComponentType } from '../utils/common';
-import useUnmount from './useUnmount';
-import * as Config from '../config';
-import { SUCCESS_FLAG } from '../utils/constants';
-import { VerifyActions } from '../verify-actions';
+import { useState, useRef, useCallback, useEffect } from "react";
+import event from "../utils/event";
+import { isNil, isObject, getComponentType } from "../utils/common";
+import useUnmount from "./useUnmount";
+import * as Config from "../config";
+import { SUCCESS_FLAG } from "../utils/constants";
+import { VerifyActions } from "../verify-actions";
 
 /**
  * 监听输入框改变事件
@@ -13,7 +13,7 @@ import { VerifyActions } from '../verify-actions';
  */
 function attachListerner(ref, handleChange) {
   const { name } = ref.props;
-  event.on(name, 'INPUT_FIELD', handleChange);
+  event.on(name, "INPUT_FIELD", handleChange);
 
   Config[getComponentType(ref)].attachChange(event, name, ref);
 }
@@ -62,7 +62,7 @@ function useForm({ verifyLazy }) {
 
   function setValue(nameAndValue) {
     // TODO: 是否对无用数据(other), 进行过滤{[name]: value, other: xxx}
-    setFormValues((v) => ({ ...v, ...nameAndValue }));
+    setFormValues(v => ({ ...v, ...nameAndValue }));
   }
 
   function getValue(name) {
@@ -77,7 +77,11 @@ function useForm({ verifyLazy }) {
       const validationMapNames = Object.keys(validationMap.current);
 
       for (const name of validationMapNames) {
-        const result = hanldeVerifyActions(name, formValues[name], validationMap.current[name]);
+        const result = hanldeVerifyActions(
+          name,
+          formValues[name],
+          validationMap.current[name]
+        );
 
         if (!result) return;
       }
@@ -98,7 +102,7 @@ function useForm({ verifyLazy }) {
       if (!isObject(vOpts)) {
         vOpts = {
           rule: vOpts,
-          error: '',
+          error: ""
         };
       }
 
@@ -110,7 +114,7 @@ function useForm({ verifyLazy }) {
         return false;
       }
 
-      setErrors((e) => {
+      setErrors(e => {
         delete e[name];
         return e;
       });
@@ -137,7 +141,7 @@ function useForm({ verifyLazy }) {
   }, [formValues]);
 
   useUnmount(() => {
-    namesRef.current.forEach((name) => {
+    namesRef.current.forEach(name => {
       event.off(name);
     });
 
@@ -151,7 +155,7 @@ function useForm({ verifyLazy }) {
     handleSubmit,
     formValues,
     isCompleted,
-    errors,
+    errors
   };
 }
 

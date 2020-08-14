@@ -1,13 +1,11 @@
-export { required } from './required';
-export { pattern } from './pattern';
+import { required } from "./required";
+import { pattern } from "./pattern";
 
-let VerifyActions = {
-  required,
-  pattern,
-};
+export class VerifyActions {
+  static required = required;
+  static  pattern = pattern;
 
-const updateVerfyActions = (actions) => {
-  VerifyActions = Object.assign(VerifyActions, actions);
-};
-
-export { VerifyActions, updateVerfyActions };
+  static add(actions) {
+    Object.assign(VerifyActions, actions);
+  }
+}

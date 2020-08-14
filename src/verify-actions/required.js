@@ -1,7 +1,7 @@
-import { SUCCESS_FLAG } from '../utils/constants';
-import { isNil } from '../utils/common';
+import { SUCCESS_FLAG } from "../utils/constants";
+import { isNil } from "../utils/common";
 
-export const action = (value, ruleObj = { rule: true, error: '' }) => {
+export const required = (value, ruleObj = { rule: true, error: "" }) => {
   if (!ruleObj.rule) {
     return SUCCESS_FLAG;
   }
